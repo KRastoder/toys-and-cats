@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
@@ -10,9 +11,12 @@ import { login } from '@/routes';
 import { store } from '@/routes/register';
 
 export default function Register() {
+    const [role, setRole] = useState<'user' | 'doctor'>('user');
+
     return (
         <>
             <Head title="Register" />
+
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -22,97 +26,112 @@ export default function Register() {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
+                            {/* NAME */}
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
                                 <Input
                                     id="name"
+                                    name="name"
                                     type="text"
                                     required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="name"
-                                    name="name"
-                                    placeholder="Full name"
                                 />
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.name} />
                             </div>
 
+                            {/* EMAIL */}
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">Email</Label>
                                 <Input
                                     id="email"
+                                    name="email"
                                     type="email"
                                     required
-                                    tabIndex={2}
-                                    autoComplete="email"
-                                    name="email"
-                                    placeholder="email@example.com"
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
+                            {/* PASSWORD */}
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
                                 <PasswordInput
                                     id="password"
-                                    required
-                                    tabIndex={3}
-                                    autoComplete="new-password"
                                     name="password"
-                                    placeholder="Password"
+                                    required
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
+                            {/* CONFIRM PASSWORD */}
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
                                     Confirm password
                                 </Label>
                                 <PasswordInput
                                     id="password_confirmation"
-                                    required
-                                    tabIndex={4}
-                                    autoComplete="new-password"
                                     name="password_confirmation"
-                                    placeholder="Confirm password"
+                                    required
                                 />
                                 <InputError
                                     message={errors.password_confirmation}
                                 />
                             </div>
+
+                            {/* ROLE */}
                             <div className="grid gap-2">
-                                <label htmlFor="role">Register as</label>
+                                <Label htmlFor="role">Register as</Label>
 
                                 <select
-                                    name="role"
                                     id="role"
-                                    defaultValue="user"
+                                    name="role"
                                     required
+                                    value={role}
+                                    onChange={(e) =>
+                                        setRole(
+                                            e.target.value as 'user' | 'doctor',
+                                        )
+                                    }
                                 >
                                     <option value="user">User</option>
                                     <option value="doctor">Doctor</option>
                                 </select>
+
+                                <InputError message={errors.role} />
                             </div>
 
-                            <Button
-                                type="submit"
-                                className="mt-2 w-full"
-                                tabIndex={5}
-                                data-test="register-user-button"
-                            >
+                            {/* DOCTOR FIELDS */}
+                            {role === 'doctor' && (
+                                <>
+                                    <div className="grid gap-2">
+                                        <Label>Years of experience</Label>
+                                        <Input
+                                            name="years_of_experience"
+                                            type="number"
+                                            min={0}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label>Speciality</Label>
+                                        <Input
+                                            name="speciality"
+                                            type="text"
+                                            required
+                                        />
+                                    </div>
+                                </>
+                            )}
+
+                            {/* SUBMIT */}
+                            <Button type="submit" className="w-full">
                                 {processing && <Spinner />}
                                 Create account
                             </Button>
                         </div>
 
-                        <div className="text-center text-sm text-muted-foreground">
+                        <div className="text-center text-sm">
                             Already have an account?{' '}
-                            <TextLink href={login()} tabIndex={6}>
-                                Log in
-                            </TextLink>
+                            <TextLink href={login()}>Log in</TextLink>
                         </div>
                     </>
                 )}
