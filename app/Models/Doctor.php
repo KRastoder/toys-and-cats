@@ -37,4 +37,8 @@ class Doctor extends Model
     {
         return $this->hasMany(Booking::class);
     }
+    public function procedures()
+    {
+        return $this->hasMany(DoctorProcedure::class);
+    }
 }

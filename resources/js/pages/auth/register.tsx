@@ -83,6 +83,19 @@ export default function Register() {
                                     message={errors.password_confirmation}
                                 />
                             </div>
+                            <div className="grid gap-2">
+                                <label htmlFor="role">Register as</label>
+
+                                <select
+                                    name="role"
+                                    id="role"
+                                    defaultValue="user"
+                                    required
+                                >
+                                    <option value="user">User</option>
+                                    <option value="doctor">Doctor</option>
+                                </select>
+                            </div>
 
                             <Button
                                 type="submit"

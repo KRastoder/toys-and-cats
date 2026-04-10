@@ -11,6 +11,7 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'doctor_id',
+        'doctor_procedure_id',
         'booking_date',
         'booking_time',
         'status',
@@ -24,5 +25,10 @@ class Booking extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function procedure()
+    {
+        return $this->belongsTo(DoctorProcedure::class, 'doctor_procedure_id');
     }
 }
