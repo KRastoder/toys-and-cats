@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained()->restrictOnDelete();
             // Monday, Tuesday, etc.
-            $table->string('day_of_week');
+            $table->enum('day_of_week', ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']);
             // working hours
             $table->time('start_time');
             $table->time('end_time');

@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')
                 ->constrained()
                 ->restrictOnDelete();
-
             $table->string('name')->unique();
-
+            $table->string('profile_picture')->nullable();
             $table->unsignedSmallInteger('years_of_experience');
 
             $table->string('speciality');
