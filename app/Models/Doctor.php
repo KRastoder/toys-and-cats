@@ -13,17 +13,16 @@ class Doctor extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'profile_picture',
         'years_of_experience',
         'speciality',
     ];
 
-    /**
-     * Doctor belongs to a user (account)
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function availabilities()
     {
         return $this->hasMany(DoctorAvailability::class);
@@ -33,10 +32,12 @@ class Doctor extends Model
     {
         return $this->hasMany(DoctorUnavailableDate::class);
     }
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
+
     public function procedures()
     {
         return $this->hasMany(DoctorProcedure::class);
